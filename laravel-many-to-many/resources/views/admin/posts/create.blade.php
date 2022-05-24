@@ -6,7 +6,7 @@
     <div class="container">
 
         <h2 class="fw-bold"> CREA UN NUOVO POST:</h2>
-        <h3 class="mb-4">Inserisci qui il titolo, il relativo slug e il contenuto del tuo post!</h3>
+        <h3 class="mb-4">Inserisci qui il titolo, il relativo slug, il contenuto, la categoria e i tags del tuo post!</h3>
         <div class="row">
             <div class="col">
                 <form method="POST" action="{{ route('admin.posts.store') }}">
@@ -51,7 +51,23 @@
                     @error('category_id')
                         <div class="alert alert-warning">{{ $message }}</div>
                     @enderror
+
+                    <!-- TAGS: -->
+
+                    <fieldset>
+                        <label for="title" class="form-label fw-bold mt-4" style="color: rgb(255, 119, 0)">Check your tags:</label>
+                        @foreach ($tags as $tag)
+                            
+                        <input type="checkbox" class="form-check-input align-baseline ms-4" name="tags[]" id="tag-{{ $tag->id }}" value="{{ $tag->id }}"
+                                @if (in_array($tag->id, old('tags', []))) checked @endif>
+                            <label class="form-check-label align-baseline" for="tag-{{ $tag->id }}">{{ $tag->name }}</label>
+                        @endforeach
+                    </fieldset>
+                    @error('tags')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 
+                    <!-- BUTTON -->
 
                     <button type="submit" class="btn btn-primary mt-4 fw-bold">SAVE</button>
 

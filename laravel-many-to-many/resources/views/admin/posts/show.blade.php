@@ -14,6 +14,7 @@
                 <div> <h5 class="fw-bold" style="color: rgb(255, 119, 0)">Slug:</h5> {{ $post->slug }} </div>
                 <p> <h5 class="fw-bold" style="color: rgb(255, 119, 0)">Content:</h5> {{ $post->content }} </p>
                 <div><h5 class="fw-bold" style="color: rgb(255, 119, 0)">Category:</h5> {{ $post->category ->name}}</div>
+                <div><h5 class="fw-bold" style="color: rgb(255, 119, 0)">Tags:</h5> {{ $post->tags->pluck('name')->join(', ') }}</div>
                 <div> <h5 class="fw-bold" style="color: rgb(255, 119, 0)">Created At:</h5> {{ $post->created_at }}</div>
                 <div> <h5 class="fw-bold" style="color: rgb(255, 119, 0)">Updated At:</h5> {{ $post->updated_at }}</div>
 

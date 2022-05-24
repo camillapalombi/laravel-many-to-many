@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use App\Post;
 use App\Category;
 use App\User;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Route;
@@ -28,7 +29,8 @@ class PostController extends Controller
                 'max:100'
             ],
             'content'   => 'required|min:10',
-            'category_id' => 'required|exists:App\Category,id'
+            'category_id' => 'required|exists:App\Category,id',
+            'tags' => 'exists:App\Tag,id' 
         ];
     }
     /**
@@ -75,7 +77,13 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+
+        $tags = Tag::all();
+
+        return view('admin.posts.create', [
+            'categories' => $categories,
+            'tags' => $tags
+        ]);
     }
 
     /**
@@ -92,6 +100,8 @@ class PostController extends Controller
             'user_id' => Auth::user()->id
         ];
         $post = Post::create($formData);
+
+        $post->tags()->attach($formData['tags']);
 
         return redirect()->route('admin.posts.show', $post->slug);
     }
@@ -119,7 +129,17 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         if (Auth::user()->id !== $post->user_id) abort(403);
-        return view('admin.posts.edit', compact('post'));
+
+        $categories = Category::all();
+
+        $tags = Tag::all();
+
+        return view('admin.posts.edit', 
+        [
+            'post' => $post,
+            'categories' => $categories,
+            'tags' => $tags
+        ]);
     }
 
     /**
@@ -136,7 +156,10 @@ class PostController extends Controller
 
         $request->validate($this->getValidators($post));
 
-        $post->update($request->all());
+        $formData = $request->all();
+        $post->update($formData);
+
+        $post->tags()->sync($formData['tags']);
 
         return redirect()->route('admin.posts.show', $post->slug);
     }

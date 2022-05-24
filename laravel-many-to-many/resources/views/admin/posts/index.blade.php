@@ -55,6 +55,9 @@
                     <th class="text-center" scope="col">#</th>
                     <th class="text-center" scope="col">Title</th>
                     <th class="text-center" scope="col">Slug</th>
+                    <th class="text-center" scope="col">Author</th>
+                    <th class="text-center" scope="col">Category</th>
+                    <th class="text-center" scope="col">Tags</th>
                     <th class="text-center" scope="col">Created At</th>
                     <th class="text-center" scope="col">Updated At</th>
                     <th class="text-center" scope="col" colspan="3">Actions</th>
@@ -66,6 +69,9 @@
                             <th class="text-center" scope="row">{{ $post->id }}</th>
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->slug }}</td>
+                            <td>{{ $post->user->name }}</td>
+                            <td>{{ $post->category ->name}}</td>
+                            <td class="text-center" >{{ $post->tags->pluck('name')->join(', ') }}</td>
                             <td>{{ date('d/m/Y', strtotime($post->created_at)) }}</td>
                             <td>{{ date('d/m/Y', strtotime($post->updated_at)) }}</td>
                             <td>
