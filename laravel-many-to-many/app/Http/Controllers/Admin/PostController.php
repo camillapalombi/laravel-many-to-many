@@ -174,6 +174,8 @@ class PostController extends Controller
     {
         if (Auth::user()->id !== $post->user_id) abort(403);
 
+        $post->tags()->detach();
+        
         $post->delete();
 
         if (url()->previous() === route('admin.posts.edit', $post->slug)) {
@@ -182,6 +184,9 @@ class PostController extends Controller
         return redirect(url()->previous())->with('status', "Post $post->title deleted");;;
     }
 
+
+
+     
 
     public function myindex() {
 
