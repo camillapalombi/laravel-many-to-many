@@ -19,7 +19,8 @@ class Post extends Model
         'content',
         'slug',
         'user_id',
-        'category_id'
+        'category_id',
+        'post_image'
     ];
 
     static public function generateSlug($originalStr) {

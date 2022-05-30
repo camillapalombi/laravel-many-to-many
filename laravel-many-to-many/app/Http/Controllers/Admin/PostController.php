@@ -11,6 +11,7 @@ use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -56,6 +57,10 @@ class PostController extends Controller
 
         $posts = $posts->paginate(20);
 
+        $query_arguments = $request->query();
+
+        $posts->withPath($request->fullUrl());
+
        $categories = Category::all();
 
        $users = User::all();
@@ -96,9 +101,15 @@ class PostController extends Controller
     {
         $request->validate($this->getValidators(null));
 
-        $formData = $request->all() + [
-            'user_id' => Auth::user()->id
-        ];
+        $data = $request->all();
+
+        $img_path = Storage::put('uploads', $data['post_image']);
+
+        $formData = [
+            'user_id' => Auth::user()->id,
+            'post_image' => $img_path
+        ] + $data;
+        
         $post = Post::create($formData);
 
         $post->tags()->attach($formData['tags']);

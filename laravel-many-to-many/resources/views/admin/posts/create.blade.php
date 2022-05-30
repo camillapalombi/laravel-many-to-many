@@ -9,7 +9,7 @@
         <h3 class="mb-4">Inserisci qui il titolo, il relativo slug, il contenuto, la categoria e i tags del tuo post!</h3>
         <div class="row">
             <div class="col">
-                <form method="POST" action="{{ route('admin.posts.store') }}">
+                <form method="POST" action="{{ route('admin.posts.store') }}" enctype="multipart/form-data">
 
                     @csrf
 
@@ -35,6 +35,16 @@
                         <textarea type="text" class="form-control" id="content" name="content"> {{ old('content') }} </textarea>
                     </div>
                     @error('content')
+                        <div class="alert alert-warning">{{ $message }}</div>
+                    @enderror
+
+                    <!--IMMAGINI -->
+
+                    <div class="mb-5">
+                        <label for="post_image" class="form-label fw-bold" style="color: rgb(255, 119, 0)">Image</label>
+                        <input class="form-control" type="file" id="post_image" name="post_image" accept="image/*">
+                  </div>
+                  @error('post_image')
                         <div class="alert alert-warning">{{ $message }}</div>
                     @enderror
 

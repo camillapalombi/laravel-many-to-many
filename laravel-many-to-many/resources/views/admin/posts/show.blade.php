@@ -9,7 +9,7 @@
 
                 <div class="fs-1"> <a class="title-link text-decoration-none" href="{{ route('admin.posts.show', $post->slug) }}">{{ $post->title }}</a> </div>
                 <div><h5 class="fw-bold" style="color: rgb(255, 119, 0)">Author:</h5>{{ $post->user->name }}</div>
-                <div><h5 class="fw-bold" style="color: rgb(255, 119, 0)">Phone number:</h5>{{ $post->user->userInfo->phone }}</div>
+                @if ($post->user->userInfo && $post->user->userInfo->phone) <div><h5 class="fw-bold" style="color: rgb(255, 119, 0)">Phone number:</h5>{{ $post->user->userInfo->phone }}</div> @endif
 
                 <div> <h5 class="fw-bold" style="color: rgb(255, 119, 0)">Slug:</h5> {{ $post->slug }} </div>
                 <p> <h5 class="fw-bold" style="color: rgb(255, 119, 0)">Content:</h5> {{ $post->content }} </p>
